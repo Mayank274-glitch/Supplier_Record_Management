@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Supplier_Record>
+  <supplier>
+    <Name>Jenica Monahan</Name>
+    <Company>Koch and Sons</Company>
+    <Email>Jenica_Monahan@gmail.com</Email>
+    <Address>Port Beulah,lowa 90719</Address>
+    <Mobile>9690688434</Mobile>
+  </supplier>
+  <supplier>
+    <Name>Rollin Fadel</Name>
+    <Company>Steuber LLC</Company>
+    <Email>RollinFadel.SteuberLLC@gmail.com</Email>
+    <Address>Lake Matali,74062 USA</Address>
+    <Mobile>9690685555</Mobile>
+  </supplier>
+  <supplier>
+    <Name>Mike Hillyer</Name>
+    <Company>Jakubowski and Sons</Company>
+    <Email>MikeHillyerl.Jakubowski@gmail.com</Email>
+    <Address>23 Workhaven Lane</Address>
+    <Mobile>1403333558</Mobile>
+  </supplier>
+  <supplier>
+    <Name>Jon Stephens</Name>
+    <Company>Kuphal Paucek </Company>
+    <Email>Jon.Kuphal@gmail.com</Email>
+    <Address>1411 Lillydale Drive</Address>
+    <Mobile>9799501026</Mobile>
+  </supplier>
+  <supplier>
+    <Name>Nitzsche-Koch</Name>
+    <Company>Bashirian-Lebsack</Company>
+    <Email>Nitzsche266@kshlerin.info</Email>
+    <Address>1411 Lillydale Drive</Address>
+    <Mobile>4575210621</Mobile>
+  </supplier>
+  <supplier>
+    <Name>Mayank Choudhary</Name>
+    <Company>Decos_UpdateCheck</Company>
+    <Email>mayankchoudhary2274@gmail.com</Email>
+    <Address>L-31,Near gangour vatika,Pratap nagar</Address>
+    <Mobile>9799501024</Mobile>
+  </supplier>
+  <supplier>
+    <Name>Suraj Kumar</Name>
+    <Company>Decos</Company>
+    <Email>Suraj.Kumar@gmail.com</Email>
+    <Address>Patna</Address>
+    <Mobile>9895995555</Mobile>
+  </supplier>
+</Supplier_Record>
