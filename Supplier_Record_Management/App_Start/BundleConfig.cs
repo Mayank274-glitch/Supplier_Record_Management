@@ -33,6 +33,10 @@ namespace Supplier_Record_Management
             // ready for production, use the build tool at https://modernizr.com to pick only the tests you need
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                             "~/Scripts/modernizr-*"));
+
+            // style by mynk
+            bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/bootstrap.css",
+                "~/Content/site.css"));
         }
     }
 }
