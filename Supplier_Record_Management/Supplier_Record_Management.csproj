@@ -214,6 +214,14 @@
     <Compile Include="Site.Mobile.Master.designer.cs">
       <DependentUpon>Site.Mobile.Master</DependentUpon>
     </Compile>
+    <Compile Include="SupplierRecordDataSet.cs">
+      <DependentUpon>SupplierRecordDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="SupplierRecordDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SupplierRecordDataSet.xsd</DependentUpon>
+    </Compile>
     <Compile Include="ViewSwitcher.ascx.cs">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -230,12 +238,28 @@
     <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.4.1.min.map" />
     <Content Include="Site.Mobile.Master" />
+    <Content Include="SupplierRecordDataSet.xsc">
+      <DependentUpon>SupplierRecordDataSet.xsd</DependentUpon>
+    </Content>
+    <None Include="SupplierRecordDataSet.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>SupplierRecordDataSet.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="SupplierRecordDataSet.xss">
+      <DependentUpon>SupplierRecordDataSet.xsd</DependentUpon>
+    </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Default.aspx.resx">
+      <DependentUpon>Default.aspx.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

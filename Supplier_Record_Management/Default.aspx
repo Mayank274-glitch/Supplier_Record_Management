@@ -36,6 +36,26 @@
         </asp:GridView>
         <asp:XmlDataSource ID="XmlDataSource1" runat="server" DataFile="~/Supplier_Record.xml" TransformFile="~/transform.xslt"></asp:XmlDataSource>
       
+        <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:supplier_recordsConnectionString %>" DeleteCommand="DeleteSupplier" DeleteCommandType="StoredProcedure" InsertCommand="InsertSupplier" InsertCommandType="StoredProcedure" SelectCommand="SelectSupplier" SelectCommandType="StoredProcedure" UpdateCommand="UpdateSupplier" UpdateCommandType="StoredProcedure">
+            <DeleteParameters>
+                <asp:Parameter Name="Name" Type="String" />
+            </DeleteParameters>
+            <InsertParameters>
+                <asp:Parameter Name="Name" Type="String" />
+                <asp:Parameter Name="Company" Type="String" />
+                <asp:Parameter Name="Email" Type="String" />
+                <asp:Parameter Name="Address" Type="String" />
+                <asp:Parameter Name="Mobile" Type="Int32" />
+            </InsertParameters>
+            <UpdateParameters>
+                <asp:Parameter Name="Name" Type="String" />
+                <asp:Parameter Name="Company" Type="String" />
+                <asp:Parameter Name="Email" Type="String" />
+                <asp:Parameter Name="Address" Type="String" />
+                <asp:Parameter Name="Mobile" Type="Int32" />
+            </UpdateParameters>
+        </asp:SqlDataSource>
+      
     </p>
       
     

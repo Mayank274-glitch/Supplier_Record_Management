@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
@@ -18,6 +19,10 @@ namespace Supplier_Record_Management
 {
     public partial class _Default : Page
     {
+        private string strConnectionString = ConfigurationManager.ConnectionStrings["supplier_recordsConnectionString"].ConnectionString;
+        private SqlCommand _sqlCommand;
+        private SqlDataAdapter _sqlDataAdapter;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (Page.IsPostBack)
@@ -27,9 +32,33 @@ namespace Supplier_Record_Management
             }
         }
 
-        
-       //check_1
-      
+
+        //check_1
+        //work_ creating sql Conn
+        private static void ShowAlertMessage(string error)
+        {
+            System.Web.UI.Page page = System.Web.HttpContext.Current.Handler as System.Web.UI.Page;
+            if (page != null)
+            {
+                error = error.Replace("'", "\'");
+                System.Web.UI.ScriptManager.RegisterStartupScript(page, page.GetType(), "err_msg", "alert('" + error + "');", true);
+            }
+        }
+        public void CreateConnection()
+        {
+            SqlConnection _sqlConnection = new SqlConnection(strConnectionString);
+            _sqlCommand = new SqlCommand();
+            _sqlCommand.Connection = _sqlConnection;
+        }
+        public void OpenConnection()
+        {
+            _sqlCommand.Connection.Open();
+        }
+        public void CloseConnection()
+        {
+            _sqlCommand.Connection.Close();
+        }
+
 
         protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
         {
@@ -115,6 +144,11 @@ namespace Supplier_Record_Management
         protected void btn_cancel_Click(object sender, EventArgs e)
         {
             ModalPopupExtender1.Hide();
+        }
+
+        private void InitializeComponent()
+        {
+
         }
     }
 }
