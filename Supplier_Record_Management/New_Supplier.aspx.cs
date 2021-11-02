@@ -7,6 +7,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Windows;
 using System.Xml;
 
 
@@ -68,25 +69,25 @@ namespace Supplier_Record_Management
                 _sqlCommand.Parameters.AddWithValue("@Company", Convert.ToString(tb_company.Text.Trim()));
                 _sqlCommand.Parameters.AddWithValue("@Email", Convert.ToString(tb_email.Text.Trim()));
                 _sqlCommand.Parameters.AddWithValue("@Address", Convert.ToString(tb_address.Text.Trim()));
-                _sqlCommand.Parameters.AddWithValue("@Mobile", Convert.ToInt32(tb_mobile.Text));
+                _sqlCommand.Parameters.AddWithValue("@Mobile", Convert.ToString(tb_mobile.Text.Trim()));
                 int result = Convert.ToInt32(_sqlCommand.ExecuteNonQuery());
                 if (result > 0)
                 {
 
-                    ShowAlertMessage("Record Is Inserted Successfully");
-                    //  BindSupplierData();
+                    MessageBox.Show("Record Is Inserted Successfully");
+                    //  BindSupplierData(); Maybe
                     //   ClearControls();doubt
                 }
                 else
                 {
 
-                    ShowAlertMessage("Failed Insert");
+                    MessageBox.Show("Failed Insert");
                 }
             }
             catch (Exception ex)
             {
 
-                ShowAlertMessage("Check your input data");
+                MessageBox.Show(ex.ToString());
 
             }
             finally
@@ -99,28 +100,31 @@ namespace Supplier_Record_Management
 
         protected void btn_add_Click(object sender, EventArgs e)
         {
-            // creating object of XML DOCument class  
-            XmlDocument XmlDocObj = new XmlDocument();
-            //loading XML File in memory  
-            XmlDocObj.Load(Server.MapPath("Supplier_Record.xml"));
-            //Select root node which is already defined  
-            XmlNode RootNode = XmlDocObj.SelectSingleNode("Supplier_Record");
-            //Creating one child node with tag name  supplierNode
-            XmlNode supplierNode = RootNode.AppendChild(XmlDocObj.CreateNode(XmlNodeType.Element, "supplier", ""));
 
-            //adding all data from text box to xml file one by one 
-            supplierNode.AppendChild(XmlDocObj.CreateNode(XmlNodeType.Element, "Name", "")).InnerText = tb_name.Text;
+            btnInsert_Click();
 
-            supplierNode.AppendChild(XmlDocObj.CreateNode(XmlNodeType.Element, "Company", "")).InnerText = tb_company.Text;
+            //// creating object of XML DOCument class  
+            //XmlDocument XmlDocObj = new XmlDocument();
+            ////loading XML File in memory  
+            //XmlDocObj.Load(Server.MapPath("Supplier_Record.xml"));
+            ////Select root node which is already defined  
+            //XmlNode RootNode = XmlDocObj.SelectSingleNode("Supplier_Record");
+            ////Creating one child node with tag name  supplierNode
+            //XmlNode supplierNode = RootNode.AppendChild(XmlDocObj.CreateNode(XmlNodeType.Element, "supplier", ""));
 
-            supplierNode.AppendChild(XmlDocObj.CreateNode(XmlNodeType.Element, "Email", "")).InnerText = tb_email.Text;
+            ////adding all data from text box to xml file one by one 
+            //supplierNode.AppendChild(XmlDocObj.CreateNode(XmlNodeType.Element, "Name", "")).InnerText = tb_name.Text;
 
-            supplierNode.AppendChild(XmlDocObj.CreateNode(XmlNodeType.Element, "Address", "")).InnerText = tb_address.Text;
+            //supplierNode.AppendChild(XmlDocObj.CreateNode(XmlNodeType.Element, "Company", "")).InnerText = tb_company.Text;
 
-            supplierNode.AppendChild(XmlDocObj.CreateNode(XmlNodeType.Element, "Mobile", "")).InnerText = tb_mobile.Text;
+            //supplierNode.AppendChild(XmlDocObj.CreateNode(XmlNodeType.Element, "Email", "")).InnerText = tb_email.Text;
 
-            //after adding node, saving BookStore.xml back to the server  
-            XmlDocObj.Save(Server.MapPath("Supplier_Record.xml"));
+            //supplierNode.AppendChild(XmlDocObj.CreateNode(XmlNodeType.Element, "Address", "")).InnerText = tb_address.Text;
+
+            //supplierNode.AppendChild(XmlDocObj.CreateNode(XmlNodeType.Element, "Mobile", "")).InnerText = tb_mobile.Text;
+
+            ////after adding node, saving BookStore.xml back to the server  
+            //XmlDocObj.Save(Server.MapPath("Supplier_Record.xml"));
         }
     }
 }

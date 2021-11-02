@@ -9,18 +9,13 @@
     <h2>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Supplier Records </h2>
     <p>
-        &nbsp;<asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" DataSourceID="XmlDataSource1" AllowPaging="True" BackColor="White" BorderColor="#999999" BorderStyle="None" BorderWidth="1px" CellPadding="3" Height="478px" Width="812px" OnRowDataBound="GridView1_RowDataBound" OnSelectedIndexChanged="GridView1_SelectedIndexChanged" CellSpacing="3">
+        &nbsp;<asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" DataSourceID="SqlDataSource1" AllowPaging="True" BackColor="White" BorderColor="#999999" BorderStyle="None" BorderWidth="1px" CellPadding="3" Height="478px" Width="812px" OnRowDataBound="GridView1_RowDataBound" OnSelectedIndexChanged="GridView1_SelectedIndexChanged" CellSpacing="3">
             <AlternatingRowStyle BackColor="#DCDCDC" />
             <RowStyle HorizontalAlign="Center" ></RowStyle>
             <Columns>
-                <asp:TemplateField HeaderText="No." HeaderStyle-HorizontalAlign="Center">
-                        <ItemTemplate>
-                            <%# Container.DataItemIndex + 1 %>
-                        </ItemTemplate>
-                    </asp:TemplateField>
-                <asp:BoundField DataField="Name" HeaderText="Name" SortExpression="Name"/>
-                <asp:BoundField DataField="Company" HeaderText="Company" SortExpression="Company"/>
-                <asp:BoundField DataField="Email" HeaderText="Email" SortExpression="Email"  />
+                <asp:BoundField DataField="Name" HeaderText="Name" SortExpression="Name" />
+                <asp:BoundField DataField="Company" HeaderText="Company" SortExpression="Company" />
+                <asp:BoundField DataField="Email" HeaderText="Email" SortExpression="Email" />
                 <asp:BoundField DataField="Address" HeaderText="Address" SortExpression="Address" />
                 <asp:BoundField DataField="Mobile" HeaderText="Mobile" SortExpression="Mobile" />
             </Columns>
@@ -78,7 +73,7 @@
     <asp:LinkButton ID="lnkDummy" runat="server"></asp:LinkButton>
 
 
-            <asp:Panel ID="Panel1" CssClass="popup" runat="server" Height="431px" BackColor="White" BorderStyle="Solid" Font-Bold="True" Font-Italic="False" ForeColor="Black" Width="553px">
+            <asp:Panel ID="Panel1" CssClass="popup" runat="server" Height="426px" BackColor="White" BorderStyle="Solid" Font-Bold="True" Font-Italic="False" ForeColor="Black" Width="553px">
 
         <div class="container">
 
@@ -115,10 +110,11 @@
             <br />
             <br />
             <br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <asp:Button ID="btn_save" runat="server" BackColor="#00FF99" Text="Save" Width="86px" OnClick="btn_save_Click" />
-&nbsp;&nbsp;
-            <asp:Button ID="btn_cancel" runat="server" BackColor="#00FF99" Text="Cancel" Width="86px" OnClick="btn_cancel_Click" />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <asp:Button ID="btn_save" runat="server" BackColor="#00FF99" OnClick="btn_save_Click" Text="Save" Width="86px" />
+            &nbsp;&nbsp;
+            <asp:Button ID="btn_cancel" runat="server" BackColor="#00FF99" OnClick="btn_cancel_Click" Text="Cancel" Width="86px" />
+            <asp:Button ID="btn_delete" runat="server" BackColor="#00FF99" OnClick="btnDelete_Click" Text="Delete" Width="86px" />
             <br />
             <br />
 

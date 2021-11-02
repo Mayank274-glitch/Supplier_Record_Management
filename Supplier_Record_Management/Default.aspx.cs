@@ -11,6 +11,7 @@ using System.Reflection;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Windows;
 using System.Xml;
 using System.Xml.Linq;
 using AjaxControlToolkit;
@@ -19,7 +20,8 @@ namespace Supplier_Record_Management
 {
     public partial class _Default : Page
     {
-        private string strConnectionString = ConfigurationManager.ConnectionStrings["supplier_recordsConnectionString"].ConnectionString;
+        public string strConnectionString = ConfigurationManager.ConnectionStrings["supplier_recordsConnectionString"].ConnectionString;
+        SqlConnection myConn = new SqlConnection(ConfigurationManager.ConnectionStrings["supplier_recordsConnectionString"].ConnectionString);
         private SqlCommand _sqlCommand;
         private SqlDataAdapter _sqlDataAdapter;
         DataSet _dtSet;
@@ -30,6 +32,7 @@ namespace Supplier_Record_Management
             {
                 Page.MaintainScrollPositionOnPostBack = true;
                 //GridView1.DataBind();
+                BindSupplierData();
             }
         }
 
@@ -65,77 +68,46 @@ namespace Supplier_Record_Management
         {
             try
             {
-                CreateConnection();
-                OpenConnection();
+               
+                if (myConn != null && myConn.State == ConnectionState.Closed)
+                {
+                    CreateConnection();
+                    OpenConnection();
+                }
+               
                 _sqlCommand.CommandText = "SelectSupplier";
                 _sqlCommand.CommandType = CommandType.StoredProcedure;
                 // _sqlCommand.Parameters.AddWithValue("@Event", "Select");//Not needed
                 _sqlDataAdapter = new SqlDataAdapter(_sqlCommand);
                 _dtSet = new DataSet();
                 _sqlDataAdapter.Fill(_dtSet);
-                GridView1.DataSource = _dtSet;
+             //   GridView1.DataSource = _dtSet;
                 GridView1.DataBind();
             }
             catch (Exception ex)
             {
-                Response.Redirect("The Error is " + ex);
+                MessageBox.Show(ex.ToString());
             }
             finally
             {
-                CloseConnection();
+                if (myConn.State == ConnectionState.Open)
+                {
+                    CloseConnection();
+                }
+               
             }
         }
-
-        //Insert
-        //protected void btnSupplier_Click(object sender, EventArgs e)
-        //{
-        //    try
-        //    {
-        //        CreateConnection();
-        //        OpenConnection();
-        //        _sqlCommand.CommandText = "InsertSupplier";
-        //        _sqlCommand.CommandType = CommandType.StoredProcedure;
-        //        //   _sqlCommand.Parameters.AddWithValue("@Event", "Add");Not needed
-        //        _sqlCommand.Parameters.AddWithValue("@Name", Convert.ToString(tb_name.Text.Trim()));
-        //        _sqlCommand.Parameters.AddWithValue("@Company", Convert.ToString(tb_company.Text.Trim()));
-        //        _sqlCommand.Parameters.AddWithValue("@Email", Convert.ToString(tb_email.Text.Trim()));
-        //        _sqlCommand.Parameters.AddWithValue("@Address", Convert.ToString(tb_address.Text.Trim()));
-        //        _sqlCommand.Parameters.AddWithValue("@Mobile", Convert.ToInt32(tb_mobile.Text));
-        //        int result = Convert.ToInt32(_sqlCommand.ExecuteNonQuery());
-        //        if (result > 0)
-        //        {
-
-        //            ShowAlertMessage("Record Is Inserted Successfully");
-        //            //  BindSupplierData();
-        //            //   ClearControls();doubt
-        //        }
-        //        else
-        //        {
-
-        //            ShowAlertMessage("Failed Insert");
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-
-        //        ShowAlertMessage("Check your input data");
-
-        //    }
-        //    finally
-        //    {
-        //        CloseConnection();
-        //        //  DisposeConnection();
-        //    }
-        //}
 
         //update
         public void btnUpdate_Click()
         {
             try
             {
-
-                CreateConnection();
-                OpenConnection();
+                if (myConn != null && myConn.State == ConnectionState.Closed)
+                {
+                    CreateConnection();
+                    OpenConnection();
+                }
                 _sqlCommand.CommandText = "UpdateSupplier";
                 _sqlCommand.CommandType = CommandType.StoredProcedure;
                 //  _sqlCommand.Parameters.AddWithValue("@Event", "Update");
@@ -143,29 +115,32 @@ namespace Supplier_Record_Management
                 _sqlCommand.Parameters.AddWithValue("@Company", Convert.ToString(ajxtb_company.Text.Trim()));
                 _sqlCommand.Parameters.AddWithValue("@Email", Convert.ToString(ajxtb_email.Text.Trim()));
                 _sqlCommand.Parameters.AddWithValue("@Address", Convert.ToString(ajxtb_address.Text.Trim()));
-                _sqlCommand.Parameters.AddWithValue("@Mobile", Convert.ToInt32(ajxtb_mobile.Text));
+                _sqlCommand.Parameters.AddWithValue("@Mobile", Convert.ToString(ajxtb_mobile.Text.Trim()));
                 int result = Convert.ToInt32(_sqlCommand.ExecuteNonQuery());
                 if (result > 0)
                 {
-                    ShowAlertMessage("Record Is Updated Successfully");
-                    GridView1.EditIndex = -1;
+                    MessageBox.Show("Record Is Updated Successfully");
+                //    GridView1.EditIndex = -1;
                     BindSupplierData();
                   //  ClearControls();
                 }
                 else
                 {
-                    ShowAlertMessage("Failed Update");
+                    MessageBox.Show("Failed Update");
                 }
             }
 
             catch (Exception ex)
             {
-                ShowAlertMessage("Check your input data");
+                MessageBox.Show(ex.ToString());
             }
             finally
             {
-                CloseConnection();
-            //    DisposeConnection();
+                if (myConn.State == ConnectionState.Open)
+                {
+                    CloseConnection();
+                }
+                //    DisposeConnection();
             }
         }
 
@@ -185,20 +160,20 @@ namespace Supplier_Record_Management
                 if (result > 0)
                 {
 
-                    ShowAlertMessage("Record Is Deleted Successfully");
-                    GridView1.EditIndex = -1;
+                    MessageBox.Show("Record Is Deleted Successfully");
+                  //  GridView1.EditIndex = -1;
                     BindSupplierData();
                 }
                 else
                 {
-                    ShowAlertMessage("Deletion Failed");
+                    MessageBox.Show("Deletion Failed");
                     BindSupplierData();
                 }
             }
             catch (Exception ex)
             {
 
-                ShowAlertMessage("Check your input data");
+                MessageBox.Show(ex.ToString());
             }
             finally
             {
@@ -233,11 +208,11 @@ namespace Supplier_Record_Management
             using (GridViewRow rowS = GridView1.SelectedRow)
             {
                 int selectedIndex = GridView1.SelectedIndex;
-                ajxtb_name.Text = GridView1.Rows[selectedIndex].Cells[1].Text;
-                ajxtb_company.Text = GridView1.Rows[selectedIndex].Cells[2].Text;
-                ajxtb_email.Text =GridView1.Rows[selectedIndex].Cells[3].Text;
-                ajxtb_address.Text = GridView1.Rows[selectedIndex].Cells[4].Text;
-                ajxtb_mobile.Text = GridView1.Rows[selectedIndex].Cells[5].Text;
+                ajxtb_name.Text = GridView1.Rows[selectedIndex].Cells[0].Text;
+                ajxtb_company.Text = GridView1.Rows[selectedIndex].Cells[1].Text;
+                ajxtb_email.Text =GridView1.Rows[selectedIndex].Cells[2].Text;
+                ajxtb_address.Text = GridView1.Rows[selectedIndex].Cells[3].Text;
+                ajxtb_mobile.Text = GridView1.Rows[selectedIndex].Cells[4].Text;
 
                 // for name change
            //     temptxtnamevalue = ajxtb_name.Text.ToString();//GridView1.Rows[selectedIndex].Cells[1].Text;
@@ -264,23 +239,24 @@ namespace Supplier_Record_Management
 
         protected void btn_save_Click(object sender, EventArgs e)
         {
-            // instantiate XmlDocument and load XML from file
-            string path = AppDomain.CurrentDomain.BaseDirectory;
-            XDocument doc = XDocument.Load(path + "Supplier_Record.xml");
+            btnUpdate_Click();
+            //// instantiate XmlDocument and load XML from file
+            //string path = AppDomain.CurrentDomain.BaseDirectory;
+            //XDocument doc = XDocument.Load(path + "Supplier_Record.xml");
 
-            string temptxtnamevalue = ajxtb_name.Text;
-            var node = doc.Descendants("supplier").FirstOrDefault(cd => cd.Element("Name").Value == temptxtnamevalue);
+            //string temptxtnamevalue = ajxtb_name.Text;
+            //var node = doc.Descendants("supplier").FirstOrDefault(cd => cd.Element("Name").Value == temptxtnamevalue);
 
-            //Updating all values
-            node.SetElementValue("Name", ajxtb_name.Text);
-            node.SetElementValue("Company", ajxtb_company.Text);
-            node.SetElementValue("Email", ajxtb_email.Text);
-            node.SetElementValue("Address", ajxtb_address.Text);
-            node.SetElementValue("Mobile", ajxtb_mobile.Text);
+            ////Updating all values
+            //node.SetElementValue("Name", ajxtb_name.Text);
+            //node.SetElementValue("Company", ajxtb_company.Text);
+            //node.SetElementValue("Email", ajxtb_email.Text);
+            //node.SetElementValue("Address", ajxtb_address.Text);
+            //node.SetElementValue("Mobile", ajxtb_mobile.Text);
 
 
-            // save the XmlDocument back to disk
-            doc.Save(path + "Supplier_Record.xml");
+            //// save the XmlDocument back to disk
+            //doc.Save(path + "Supplier_Record.xml");
 
             //  gvServerConfiguration.Databind();
             // uppServerConfiguration.Update();
@@ -297,6 +273,11 @@ namespace Supplier_Record_Management
         private void InitializeComponent()
         {
 
+        }
+
+        protected void btnDelete_Click(object sender, EventArgs e)
+        {
+            btnDelete_Click();
         }
     }
 }
