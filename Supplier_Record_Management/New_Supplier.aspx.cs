@@ -17,6 +17,7 @@ namespace Supplier_Record_Management
     {
 
         private string strConnectionString = ConfigurationManager.ConnectionStrings["supplier_recordsConnectionString"].ConnectionString;
+        SqlConnection myConn = new SqlConnection(ConfigurationManager.ConnectionStrings["supplier_recordsConnectionString"].ConnectionString);
         private SqlCommand _sqlCommand;
         private SqlDataAdapter _sqlDataAdapter;
         DataSet _dtSet;
@@ -54,14 +55,22 @@ namespace Supplier_Record_Management
         {
             _sqlCommand.Connection.Close();
         }
+        public void DisposeConnection()
+        {
+            _sqlCommand.Connection.Dispose();
+        }
 
-      //  Insert
+        //  Insert
         public void btnInsert_Click()
         {
             try
             {
-                CreateConnection();
-                OpenConnection();
+                if (myConn != null && myConn.State == ConnectionState.Closed)
+                {
+                    CreateConnection();
+                    OpenConnection();
+                }
+                
                 _sqlCommand.CommandText = "InsertSupplier";
                 _sqlCommand.CommandType = CommandType.StoredProcedure;
                 //   _sqlCommand.Parameters.AddWithValue("@Event", "Add");Not needed
@@ -92,7 +101,11 @@ namespace Supplier_Record_Management
             }
             finally
             {
-                CloseConnection();
+                if (myConn.State == ConnectionState.Open)
+                {
+                    CloseConnection();
+                    DisposeConnection();
+                }
                 //  DisposeConnection();
             }
         }

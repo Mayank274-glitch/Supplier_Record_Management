@@ -15,6 +15,7 @@ using System.Windows;
 using System.Xml;
 using System.Xml.Linq;
 using AjaxControlToolkit;
+using Microsoft.Graph;
 
 namespace Supplier_Record_Management
 {
@@ -62,6 +63,10 @@ namespace Supplier_Record_Management
         {
             _sqlCommand.Connection.Close();
         }
+        public void DisposeConnection()
+        {
+            _sqlCommand.Connection.Dispose();
+        }
 
         //Select
         public void BindSupplierData()
@@ -93,6 +98,7 @@ namespace Supplier_Record_Management
                 if (myConn.State == ConnectionState.Open)
                 {
                     CloseConnection();
+                    DisposeConnection();
                 }
                
             }
@@ -119,10 +125,11 @@ namespace Supplier_Record_Management
                 int result = Convert.ToInt32(_sqlCommand.ExecuteNonQuery());
                 if (result > 0)
                 {
-                    MessageBox.Show("Record Is Updated Successfully");
-                //    GridView1.EditIndex = -1;
+                     MessageBox.Show("Record Is Updated Successfully");
+                    //    GridView1.EditIndex = -1;
                     BindSupplierData();
-                  //  ClearControls();
+                    ModalPopupExtender1.Hide();
+                    //  ClearControls();
                 }
                 else
                 {
@@ -139,6 +146,7 @@ namespace Supplier_Record_Management
                 if (myConn.State == ConnectionState.Open)
                 {
                     CloseConnection();
+                    DisposeConnection();
                 }
                 //    DisposeConnection();
             }
@@ -149,9 +157,12 @@ namespace Supplier_Record_Management
         {
             try
             {
-                CreateConnection();
-                OpenConnection();
-                
+                if (myConn != null && myConn.State == ConnectionState.Closed)
+                {
+                    CreateConnection();
+                    OpenConnection();
+                }
+
                 _sqlCommand.CommandText = "DeleteSupplier";
               //  _sqlCommand.Parameters.AddWithValue("@Event", "Delete");
                 _sqlCommand.Parameters.AddWithValue("@Name", Convert.ToString(ajxtb_name.Text.Trim()));
@@ -163,11 +174,13 @@ namespace Supplier_Record_Management
                     MessageBox.Show("Record Is Deleted Successfully");
                   //  GridView1.EditIndex = -1;
                     BindSupplierData();
+                    ModalPopupExtender1.Hide();
                 }
                 else
                 {
-                    MessageBox.Show("Deletion Failed");
+                  
                     BindSupplierData();
+                    ModalPopupExtender1.Hide();
                 }
             }
             catch (Exception ex)
@@ -177,8 +190,12 @@ namespace Supplier_Record_Management
             }
             finally
             {
-                CloseConnection();
-               // DisposeConnection();
+                if (myConn.State == ConnectionState.Open)
+                {
+                    CloseConnection();
+                    DisposeConnection();
+                }
+                // DisposeConnection();
             }
         }
 
@@ -190,7 +207,6 @@ namespace Supplier_Record_Management
                 e.Row.Attributes["onclick"] = Page.ClientScript.GetPostBackClientHyperlink(GridView1, "Select$" + e.Row.RowIndex);
                 e.Row.ToolTip = "Click to select this row.";
                 //(e.Row.FindControl("lblRowNumber") as Label).Text = (e.Row.RowIndex + 1).ToString();
-
             }
            
         }
